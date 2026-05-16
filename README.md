@@ -308,6 +308,7 @@ PY
 - DuckDB
 - dbt
 - SQL
+- Git
 - VSCode GitHub Co-pilot
 ---
 
