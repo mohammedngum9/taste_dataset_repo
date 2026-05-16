@@ -1,0 +1,7 @@
+taste_dataset:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: ../../duckdb/taste_warehouse.duckdb
+      threads: 1

@@ -1,0 +1,39 @@
+# This YAML file defines the metadata for the "bronze" source in the dbt project.
+# It specifies the schema as "bronze" and lists the tables within this schema.
+# Each table includes column definitions and associated tests to ensure data quality.
+# The "batch_number" column in each table is tested for "not_null" to enforce that
+# this field must always have a value.
+version: 2
+
+sources:
+  - name: bronze
+    schema: bronze
+    tables:
+      - name: customers
+        columns:
+          - name: batch_number
+            tests: [not_null]
+      - name: flavours
+        columns:
+          - name: batch_number
+            tests: [not_null]
+      - name: ingredients
+        columns:
+          - name: batch_number
+            tests: [not_null]
+      - name: providers
+        columns:
+          - name: batch_number
+            tests: [not_null]
+      - name: raw_materials
+        columns:
+          - name: batch_number
+            tests: [not_null]
+      - name: recipes
+        columns:
+          - name: batch_number
+            tests: [not_null]
+      - name: sales_transactions
+        columns:
+          - name: batch_number
+            tests: [not_null]

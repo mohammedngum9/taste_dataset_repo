@@ -1,0 +1,13 @@
+# python
+.venv/
+__pycache__/
+*.pyc
+
+# dbt artifacts
+dbt/taste_dataset/target/
+dbt/taste_dataset/dbt_packages/
+dbt/taste_dataset/logs/
+dbt/taste_dataset/.user.yml
+
+# OS
+.DS_Store

@@ -1,0 +1,140 @@
+# This YAML file defines the schema and associated tests for the models in the "gold" layer of the dbt project.
+# Each model represents a table in the data warehouse, and the schema specifies the columns, their constraints, and relationships.
+
+# The schema includes the following models:
+# - dim_country: Dimension table for countries with unique and non-null constraints on country_sk and country_name.
+# - dim_customer: Dimension table for customers with relationships to dim_country via country_sk.
+# - dim_provider: Dimension table for providers with relationships to dim_country via country_sk.
+# - dim_flavour: Dimension table for flavours with unique and non-null constraints on flavour_sk.
+# - dim_raw_material: Dimension table for raw materials with unique and non-null constraints on raw_material_sk.
+# - dim_ingredient: Dimension table for ingredients with unique and non-null constraints on ingredient_sk.
+# - dim_recipe: Dimension table for recipes with unique and non-null constraints on recipe_sk and yield_pct.
+# - fact_sales_transactions: Fact table for sales transactions with relationships to dim_customer, dim_flavour, and dim_country.
+# - fact_provider_ingredient_stock: Fact table for provider ingredient stock with relationships to dim_provider and dim_ingredient.
+# - fact_recipe_components: Fact table for recipe components with relationships to dim_recipe and an accepted_values test on component_type.
+
+# The schema ensures data integrity through the use of tests such as:
+# - not_null: Ensures that the column does not contain null values.
+# - unique: Ensures that the column contains unique values.
+# - relationships: Validates foreign key relationships between tables.
+# - accepted_values: Ensures that the column contains only specified values.
+
+# This schema is essential for maintaining the quality and consistency of the data in the data warehouse.
+version: 2
+
+models:
+  - name: dim_country
+    columns:
+      - name: country_sk
+        tests: [not_null, unique]
+      - name: country_name
+        tests: [not_null, unique]
+
+  - name: dim_customer
+    columns:
+      - name: customer_sk
+        tests: [not_null, unique]
+      - name: is_current
+        tests: [not_null]
+      - name: country_sk
+        tests:
+          - relationships:
+              to: ref('dim_country')
+              field: country_sk
+
+  - name: dim_provider
+    columns:
+      - name: provider_sk
+        tests: [not_null, unique]
+      - name: is_current
+        tests: [not_null]
+      - name: country_sk
+        tests:
+          - relationships:
+              to: ref('dim_country')
+              field: country_sk
+
+  - name: dim_flavour
+    columns:
+      - name: flavour_sk
+        tests: [not_null, unique]
+      - name: is_current
+        tests: [not_null]
+
+  - name: dim_raw_material
+    columns:
+      - name: raw_material_sk
+        tests: [not_null, unique]
+      - name: is_current
+        tests: [not_null]
+
+  - name: dim_ingredient
+    columns:
+      - name: ingredient_sk
+        tests: [not_null, unique]
+      - name: is_current
+        tests: [not_null]
+
+  - name: dim_recipe
+    columns:
+      - name: recipe_sk
+        tests: [not_null, unique]
+      - name: is_current
+        tests: [not_null]
+      - name: yield_pct
+        tests: [not_null]
+
+  - name: fact_sales_transactions
+    columns:
+      - name: sales_txn_sk
+        tests: [not_null, unique]
+      - name: customer_sk
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customer')
+              field: customer_sk
+      - name: flavour_sk
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_flavour')
+              field: flavour_sk
+      - name: transaction_country_sk
+        tests:
+          - relationships:
+              to: ref('dim_country')
+              field: country_sk
+
+  - name: fact_provider_ingredient_stock
+    columns:
+      - name: provider_ingredient_stock_sk
+        tests: [not_null, unique]
+      - name: provider_sk
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_provider')
+              field: provider_sk
+      - name: ingredient_sk
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_ingredient')
+              field: ingredient_sk
+
+  - name: fact_recipe_components
+    columns:
+      - name: recipe_component_sk
+        tests: [not_null, unique]
+      - name: recipe_sk
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_recipe')
+              field: recipe_sk
+      - name: component_type
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['raw_material', 'flavour', 'ingredient']

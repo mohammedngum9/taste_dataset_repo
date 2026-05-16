@@ -1,0 +1,146 @@
+# This YAML file defines the schema for the silver layer of the taste_dataset in the dbt project.
+# It includes the following models:
+# 
+# 1. silver_customers:
+#    - Represents customer data.
+#    - Columns include customer_id, batch_number, generation_date, and customer_name.
+#    - All columns are tested for not_null.
+# 
+# 2. silver_flavours:
+#    - Represents flavour data.
+#    - Columns include flavour_id, batch_number, generation_date, flavour_name, and flavour_description.
+#    - All columns are tested for not_null.
+# 
+# 3. silver_providers:
+#    - Represents provider data.
+#    - Columns include provider_id, batch_number, generation_date, and provider_name.
+#    - All columns are tested for not_null.
+# 
+# 4. silver_raw_materials:
+#    - Represents raw material data.
+#    - Columns include raw_material_id, batch_number, generation_date, and raw_material_name.
+#    - All columns are tested for not_null.
+# 
+# 5. silver_ingredients:
+#    - Represents ingredient data.
+#    - Columns include ingredient_id, provider_id, batch_number, generation_date, ingredient_name, weight_in_grams, and cost_per_gram.
+#    - All columns are tested for not_null.
+# 
+# 6. silver_recipes:
+#    - Represents recipe data.
+#    - Columns include recipe_id, raw_material_id, flavour_id, ingredient_id, raw_material_ratio, flavour_ratio, ingredient_ratio, yield, batch_number, and generation_date.
+#    - All columns are tested for not_null.
+# 
+# 7. silver_sales_transactions:
+#    - Represents sales transaction data.
+#    - Columns include transaction_id, customer_id, flavour_id, transaction_date, amount_dollars, quantity_liters, batch_number, and generation_date.
+#    - All columns are tested for not_null.
+# 
+# Each model ensures data integrity by applying not_null tests on all columns.
+version: 2
+
+models:
+  - name: silver_customers
+    columns:
+      - name: customer_id
+        tests: [not_null]
+      - name: batch_number
+        tests: [not_null]
+      - name: generation_date
+        tests: [not_null]
+      - name: customer_name
+        tests: [not_null]
+
+  - name: silver_flavours
+    columns:
+      - name: flavour_id
+        tests: [not_null]
+      - name: batch_number
+        tests: [not_null]
+      - name: generation_date
+        tests: [not_null]
+      - name: flavour_name
+        tests: [not_null]
+      - name: flavour_description
+        tests: [not_null]
+
+  - name: silver_providers
+    columns:
+      - name: provider_id
+        tests: [not_null]
+      - name: batch_number
+        tests: [not_null]
+      - name: generation_date
+        tests: [not_null]
+      - name: provider_name
+        tests: [not_null]
+
+  - name: silver_raw_materials
+    columns:
+      - name: raw_material_id
+        tests: [not_null]
+      - name: batch_number
+        tests: [not_null]
+      - name: generation_date
+        tests: [not_null]
+      - name: raw_material_name
+        tests: [not_null]
+
+  - name: silver_ingredients
+    columns:
+      - name: ingredient_id
+        tests: [not_null]
+      - name: provider_id
+        tests: [not_null]
+      - name: batch_number
+        tests: [not_null]
+      - name: generation_date
+        tests: [not_null]
+      - name: ingredient_name
+        tests: [not_null]
+      - name: weight_in_grams
+        tests: [not_null]
+      - name: cost_per_gram
+        tests: [not_null]
+
+  - name: silver_recipes
+    columns:
+      - name: recipe_id
+        tests: [not_null]
+      - name: raw_material_id
+        tests: [not_null]
+      - name: flavour_id
+        tests: [not_null]
+      - name: ingredient_id
+        tests: [not_null]
+      - name: raw_material_ratio
+        tests: [not_null]
+      - name: flavour_ratio
+        tests: [not_null]
+      - name: ingredient_ratio
+        tests: [not_null]
+      - name: yield
+        tests: [not_null]
+      - name: batch_number
+        tests: [not_null]
+      - name: generation_date
+        tests: [not_null]
+
+  - name: silver_sales_transactions
+    columns:
+      - name: transaction_id
+        tests: [not_null]
+      - name: customer_id
+        tests: [not_null]
+      - name: flavour_id
+        tests: [not_null]
+      - name: transaction_date
+        tests: [not_null]
+      - name: amount_dollars
+        tests: [not_null]
+      - name: quantity_liters
+        tests: [not_null]
+      - name: batch_number
+        tests: [not_null]
+      - name: generation_date
+        tests: [not_null]
